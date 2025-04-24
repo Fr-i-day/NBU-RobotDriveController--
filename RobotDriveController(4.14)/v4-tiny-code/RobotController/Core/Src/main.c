@@ -135,7 +135,7 @@ int main(void)
   MotorController_Init();                // 初始化调速器
   MotorController_Enable(ENABLE);
   int nSpeed = 0; // 转速变量
-  chassis.angle = pi / 2;    // 假设底盘初始角度为0
+  chassis.angle = 0;    // 假设底盘初始角度为0
   chassis.Radius = 295.0f; // 底盘中心到轮子的长度为295mm（0.295m）
 
   // 设置目标速度和方向
@@ -158,27 +158,30 @@ int main(void)
 //  uint16_t servo_pwm = 0;
 //  uint16_t cnt = 0;
     // 使能步进电机
-    Emm_V5_En_Control(1, 1, 0);
-    HAL_Delay(10);  // 等待使能完成
-
-    // 确保当前位置为零点
-    Emm_V5_Reset_CurPos_To_Zero(1);
-    HAL_Delay(10);  // 等待清零完成
 	
-	Stepper_motor_goto_target_angle(1080);
-	HAL_Delay(1000);
-	Stepper_motor_goto_target_angle(0);
+  //=================步进电机控制测试=============
+//    Emm_V5_En_Control(1, 1, 0);
+//    HAL_Delay(10);  // 等待使能完成
+
+//    // 确保当前位置为零点
+//    Emm_V5_Reset_CurPos_To_Zero(1);
+//    HAL_Delay(10);  // 等待清零完成
+	
+//	Stepper_motor_goto_target_angle(1080);
+//	HAL_Delay(1000);
+//	Stepper_motor_goto_target_angle(0);
   while (1)
   {
     /* USER CODE END WHILE */
 
 //	chassis_move(50,pi/3,0); //向左前方
-//	HAL_Delay(500);
+//	HAL_Delay(2000);
 //	chassis_move(50,-pi/4,0);//向右前方
-//	HAL_Delay(500);
+//	HAL_Delay(2000);
 //	chassis_move(50,-3*pi/4,0); 
-//	HAL_Delay(500);
+//	HAL_Delay(2000);
 //	chassis_move(50,3*pi/4,0);
+//	HAL_Delay(1500);
     /* USER CODE BEGIN 3 */
 
     //
@@ -187,11 +190,11 @@ int main(void)
     //============================按键实现转速改变=====================
     if (Key_Released(1) == 1)
     {
-
+		chassis_move(50,3*pi/4,0);
     }
     if (Key_Released(2) == 1)
     {
-
+		chassis_move(50,3*pi/4,pi/6);
     }
 
     //===============LED测试程序---绿色渐变实现=============

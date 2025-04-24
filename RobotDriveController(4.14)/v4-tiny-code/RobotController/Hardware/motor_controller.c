@@ -168,7 +168,6 @@ void MotorController_SpeedTunner(void)
 Chassis chassis;
 
 void chassis_move(float target_speed, float target_dir, float target_omega) {
-	//int speed_out[4];
     float speed_cal[4];
     float sin_ang = sin(chassis.angle);
     float cos_ang = cos(chassis.angle);
@@ -187,4 +186,38 @@ void chassis_move(float target_speed, float target_dir, float target_omega) {
 	MotorController_SetSpeed( 4 ,(int)speed_cal[0]);
 	
 }
+
+
+//void chassis_move(float target_speed, float target_dir_global, float target_omega) {
+//    float speed_cal[4];
+//    
+//    // 1. 获取实时底盘角度（确保已通过传感器更新）
+//    float current_angle = chassis.angle;
+//    float sin_ang = sin(current_angle);
+//    float cos_ang = cos(current_angle);
+//    
+//    // 2. 将全局目标速度转换到底盘本地坐标系
+//    // target_dir_global：目标方向（全局坐标系，0弧度指向世界坐标系X轴正方向）
+//    float global_speed_X = target_speed * cos(target_dir_global);
+//    float global_speed_Y = target_speed * sin(target_dir_global);
+//    
+//    // 本地坐标系下的速度（车头方向为X轴正方向）
+//    float local_speed_X = global_speed_X * cos_ang + global_speed_Y * sin_ang;
+//    float local_speed_Y = -global_speed_X * sin_ang + global_speed_Y * cos_ang;
+//    
+//    // 3. 计算各轮速度（含旋转分量）
+//    // 电机顺序：1右前轮，2右后轮，3左后轮，4左前轮
+//    // 公式符号调整说明：
+//    // - 旋转分量符号根据电机布局调整，确保逆时针旋转时合力矩正确
+//    speed_cal[0] = ((-local_speed_X - local_speed_Y) - chassis.Radius * target_omega) / sqrt(2); // 右前轮
+//    speed_cal[1] = ((-local_speed_X + local_speed_Y) + chassis.Radius * target_omega) / sqrt(2); // 右后轮
+//    speed_cal[2] = ((local_speed_X - local_speed_Y) + chassis.Radius * target_omega) / sqrt(2);  // 左后轮
+//    speed_cal[3] = ((local_speed_X + local_speed_Y) - chassis.Radius * target_omega) / sqrt(2);  // 左前轮
+//    
+//    // 4. 输出到电机（根据实际转向调整符号）
+//    MotorController_SetSpeed(1, (int)speed_cal[3]); // 右前轮
+//    MotorController_SetSpeed(2, (int)speed_cal[2]); // 右后轮
+//    MotorController_SetSpeed(3, (int)speed_cal[1]); // 左后轮
+//    MotorController_SetSpeed(4, (int)speed_cal[0]); // 左前轮
+//}
 
