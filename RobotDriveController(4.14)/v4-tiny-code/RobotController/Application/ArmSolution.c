@@ -4,11 +4,13 @@
 #include "math.h"
 #include "tim.h"
 #include "stdlib.h"
+#include "usart.h"
 
 #define PWM_DUTY_LIMIT 10000 // PWM占空比周期为10000,代表20ms    250-1250 代表 0-180度
 
 // 每个舵机缓慢移动的目标pwm
 uint16_t targetPwm[8] = {250};
+extern UartStruct uart2Data;
 
 
 void ArmDriver_Init(void){
@@ -176,4 +178,19 @@ void ArmSolution(double x, double y)
  */
 void Arm_Grab()
 {
+}
+
+char servo_angle_BT[5];
+void through_BT_setAngle()
+{
+	servo_angle_BT[0]=uart2Data.RxBuffer[1];
+	servo_angle_BT[1]=uart2Data.RxBuffer[2];
+	servo_angle_BT[2]=uart2Data.RxBuffer[3];
+	servo_angle_BT[3]=uart2Data.RxBuffer[4];
+	servo_angle_BT[4]=uart2Data.RxBuffer[5];
+	SetServoAngle(3,servo_angle_BT[0]);
+	SetServoAngle(4,servo_angle_BT[1]);
+	SetServoAngle(5,servo_angle_BT[2]);
+	SetServoAngle(6,servo_angle_BT[3]);
+	SetServoAngle(7,servo_angle_BT[4]);
 }

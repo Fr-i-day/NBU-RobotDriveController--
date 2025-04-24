@@ -153,7 +153,7 @@ int main(void)
   FnLED_OFF(FnLED2);
 
   //=================舵机控制测试=============
-//  ArmDriver_Init();
+  ArmDriver_Init();
 
 //  uint16_t servo_pwm = 0;
 //  uint16_t cnt = 0;
@@ -166,7 +166,7 @@ int main(void)
 //    // 确保当前位置为零点
 //    Emm_V5_Reset_CurPos_To_Zero(1);
 //    HAL_Delay(10);  // 等待清零完成
-	
+//	
 //	Stepper_motor_goto_target_angle(1080);
 //	HAL_Delay(1000);
 //	Stepper_motor_goto_target_angle(0);

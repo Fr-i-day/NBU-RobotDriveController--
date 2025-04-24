@@ -29,6 +29,7 @@
 #include "usart.h"
 #include "amt1450_uart.h"
 #include "Stepper_Motor.h"
+#include "ArmSolution.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -398,86 +399,40 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                  //解析底盘运动指令
                  switch(uart2Data.RxBuffer[1]){// 解析电机参数并控制电机
                  	case MOTOR_FORWARD:
-                         chassis_move(200.0f, 0 , 0.0f); // 前进
+                         chassis_move(70.0f, 0 , 0.0f); // 前进
                          break;
                      case MOTOR_BACK:
-                         chassis_move(200.0f, pi , 0.0f); //
+                         chassis_move(70.0f, pi , 0.0f); //
                          break;
                      case MOTOR_LEFT:
-                         chassis_move(200.0f, pi / 2, 0.0f); // 左转
+                         chassis_move(70.0f, pi / 2, 0.0f); // 左转
                          break;
                      case MOTOR_RIGHT:
-                         chassis_move(200.0f, -pi / 2, 0.0f); // 右转
+                         chassis_move(70.0f, -pi / 2, 0.0f); // 右转
                          break;
                  	case MOTOR_STOP:
                          chassis_move(0.0f, 0.0f, 0.0f); // 停止
                          break;
 				}
-                // 解析运动命令字节
-//                uint8_t cmd = Uartn->RxBuffer[1];
 
-//                // 解析速度档位 (高2位)
-//                uint8_t speed_level = (cmd & SPEED_MASK) >> SPEED_SHIFT;
-//                float speed = 0.0f;
-//                switch (speed_level)
-//                {
-//                case SPEED_STOP:
-//                    speed = 0.0f;
-//                    break;
-//                case SPEED_LOW:
-//                    speed = 50.0f;
-//                    break;
-//                case SPEED_MID:
-//                    speed = 100.0f;
-//                    break;
-//                case SPEED_HIGH:
-//                    speed = 200.0f;
-//                    break;
-//                }
-
-//                // 解析底盘旋转角度 (次2位)
-//                uint8_t rot_level = (cmd & ROTATION_MASK) >> ROTATION_SHIFT;
-//                float rotation = 0.0f;
-//                switch (rot_level)
-//                {
-//                case ROT_NONE:
-//                    rotation = 0.0f;
-//                    break;
-//                case ROT_30:
-//                    rotation = pi / 6;
-//                    break;
-//                case ROT_N30:
-//                    rotation = -pi / 6;
-//                    break;
-//                case ROT_45:
-//                    rotation = pi / 4;
-//                    break;
-//                }
-//                // 解析运动角度 (低4位)
-//                uint8_t angle_index = (cmd & ANGLE_MASK);
-//                float move_angle = 0.0f;
-
-//                // 将0-15的值映射到0到pi
-//                move_angle = (angle_index / 15.0f) * pi; // 将0-15线性映射到0-pi
-
-//                // 控制底盘运动
-//                chassis_move(speed, move_angle, rotation);
-//--------------------------------------------------------//
-					                //解析步进电机指令	
-                switch(uart2Data.RxBuffer[2]){
-                    case STEPPER_10_DEG:
-                        Stepper_motor_goto_target_angle(10);
-                        break;
-                    case STEPPER_180_DEG:
-                        Stepper_motor_goto_target_angle(180);
-                        break;
-                    case STEPPER_360_DEG:
-                        Stepper_motor_goto_target_angle(360);
-                        break;
-                    case STEPPER_1080_DEG:
-                        Stepper_motor_goto_target_angle(1080);
-                        break;
-				}
+////--------------------------------------------------------//
+//					                //解析步进电机指令	
+//                switch(uart2Data.RxBuffer[2]){
+//                    case STEPPER_10_DEG:
+//                        Stepper_motor_goto_target_angle(10);
+//                        break;
+//                    case STEPPER_180_DEG:
+//                        Stepper_motor_goto_target_angle(180);
+//                        break;
+//                    case STEPPER_360_DEG:
+//                        Stepper_motor_goto_target_angle(360);
+//                        break;
+//                    case STEPPER_1080_DEG:
+//                        Stepper_motor_goto_target_angle(1080);
+//                        break;
+//				}
+				
+//				through_BT_setAngle();
 
 	 	        }
 		 }
