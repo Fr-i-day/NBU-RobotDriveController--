@@ -2,7 +2,7 @@
 #define _STEPPER_MOTOR_H_
 #include "main.h"
 
-#define StepMotorVAL 200 //步进电机运行速度(RPM)，范围0 - 5000RPM
+#define StepMotorVAL 600 //步进电机运行速度(RPM)，范围0 - 5000RPM(600 角度范围0-3440)
 
 extern uint32_t now_angle;
 

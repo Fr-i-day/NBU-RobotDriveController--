@@ -76,7 +76,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+   int i = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -160,16 +160,33 @@ int main(void)
     // 使能步进电机
 	
   //=================步进电机控制测试=============
-//    Emm_V5_En_Control(1, 1, 0);
-//    HAL_Delay(10);  // 等待使能完成
+    Emm_V5_En_Control(1, 1, 0);
+    HAL_Delay(10);  // 等待使能完成
 
-//    // 确保当前位置为零点
+    // 确保当前位置为零点
 //    Emm_V5_Reset_CurPos_To_Zero(1);
-//    HAL_Delay(10);  // 等待清零完成
-//	
-//	Stepper_motor_goto_target_angle(1080);
-//	HAL_Delay(1000);
-//	Stepper_motor_goto_target_angle(0);
+//    HAL_Delay(100);  // 等待清零完成
+//		chassis_move(50, 0, 0.0f);   //前
+//		HAL_Delay(1000);
+//		chassis_move(50, pi/2, 0.0f);  //左
+//		HAL_Delay(1000);
+//		chassis_move(50, - pi/2, 0.0f);  //右
+//		HAL_Delay(1000);
+//		chassis_move(50, pi, 0.0f);    //后
+//		HAL_Delay(1000);
+//		chassis_move(0, 0, 0.0f);
+//	  Stepper_motor_goto_target_angle(3440);
+//	  HAL_Delay(10000);
+//		Stepper_motor_goto_target_angle(0);
+//	  HAL_Delay(100);
+//		Stepper_motor_goto_target_angle(2000);
+//	  HAL_Delay(1000);
+//		Stepper_motor_goto_target_angle(3000);
+//	  HAL_Delay(1000);
+//	  Stepper_motor_goto_target_angle(1000);
+//	  HAL_Delay(1000);
+//		Stepper_motor_goto_target_angle(0);
+//	  HAL_Delay(1000);
   while (1)
   {
     /* USER CODE END WHILE */
@@ -187,15 +204,19 @@ int main(void)
     //
     // 不断循环执行的代码块
     //
-    //============================按键实现转速改变=====================
-    if (Key_Released(1) == 1)
-    {
-		chassis_move(50,3*pi/4,0);
-    }
-    if (Key_Released(2) == 1)
-    {
-		chassis_move(50,3*pi/4,pi/6);
-    }
+    //============================按键实现高度改变=====================
+//    if (Key_Released(1) == 1)
+//    {
+//			Stepper_motor_goto_target_angle(3200+i);
+//			HAL_Delay(100);
+//			i = i + 10;
+//    }
+//    if (Key_Released(2) == 1)
+//    {
+//			Stepper_motor_goto_target_angle(0);
+//			HAL_Delay(100);
+//			i = 0;
+//    }
 
     //===============LED测试程序---绿色渐变实现=============
     FnLED_SetRGB(FnLED3, 0, led_val, 0, 1);
