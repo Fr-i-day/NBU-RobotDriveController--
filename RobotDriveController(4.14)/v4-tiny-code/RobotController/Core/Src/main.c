@@ -164,8 +164,8 @@ int main(void)
     HAL_Delay(10);  // 等待使能完成
 
     // 确保当前位置为零点
-//    Emm_V5_Reset_CurPos_To_Zero(1);
-//    HAL_Delay(100);  // 等待清零完成
+    Emm_V5_Reset_CurPos_To_Zero(1);
+    HAL_Delay(10);  // 等待清零完成
 //		chassis_move(50, 0, 0.0f);   //前
 //		HAL_Delay(1000);
 //		chassis_move(50, pi/2, 0.0f);  //左

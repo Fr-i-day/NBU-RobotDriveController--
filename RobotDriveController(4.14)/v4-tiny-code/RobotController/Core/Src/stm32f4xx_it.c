@@ -414,13 +414,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 												chassis_move(0, 0, 0.0f);
 											}else
 											{
-												float dir_move = (((uart2Data.RxBuffer[2] - '0')*100 + (uart2Data.RxBuffer[3] - '0')*10 + (uart2Data.RxBuffer[4] - '0')) - 180)/ 180 * pi;
+												float dir_move = (((uart2Data.RxBuffer[2] - '0')*100 + (uart2Data.RxBuffer[3] - '0')*10 + (uart2Data.RxBuffer[4] - '0')) - 180)/ 180.0f * pi;
 												float speed_move = (uart2Data.RxBuffer[5] - '0')*100 + (uart2Data.RxBuffer[6] - '0')*10 + (uart2Data.RxBuffer[7] - '0');											
 												chassis_move(speed_move, dir_move, 0.0f);
 											}
-											
+											break;
 										}
-										
+	
 //										case CMD_HEADER:
 //										{
 //										
@@ -435,7 +435,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 										{
 											float angle_arm = (uart2Data.RxBuffer[2] - '0')*200 + (uart2Data.RxBuffer[3] - '0');
 											Stepper_motor_goto_target_angle(angle_arm);
-											
+											break;
 										}
 										
 //										case CMD_REVOLVE:

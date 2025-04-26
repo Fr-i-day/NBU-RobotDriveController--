@@ -29,7 +29,7 @@ void Stepper_motor_goto_target_angle(uint32_t target_angle)
     else return;
     Emm_V5_Pos_Control(1, dir, StepMotorVAL, 0, clk, 0, 0);
     now_angle = target_angle;
-    HAL_Delay(time+1000);
+    HAL_Delay(time+10);
 }
 
 /**
