@@ -18,18 +18,18 @@ void Stepper_motor_goto_target_angle(uint32_t target_angle)
     uint32_t time;
     if(target_angle > now_angle){
         dir = 0;
-        clk = (target_angle - now_angle) / 1.8 * 16;
+        clk = (target_angle - now_angle) /1.8 * 16 ;
         time = (target_angle - now_angle)/360/StepMotorVAL*60000;
     }
     else if(target_angle < now_angle){
         dir = 1;
-        clk = (now_angle - target_angle) / 1.8 * 16;
+        clk = (now_angle - target_angle) /1.8 * 16 ;
         time = (now_angle - target_angle)/360/StepMotorVAL*60000;
     }
     else return;
     Emm_V5_Pos_Control(1, dir, StepMotorVAL, 0, clk, 0, 0);
     now_angle = target_angle;
-    HAL_Delay(time+5);
+    HAL_Delay(time+1000);
 }
 
 /**

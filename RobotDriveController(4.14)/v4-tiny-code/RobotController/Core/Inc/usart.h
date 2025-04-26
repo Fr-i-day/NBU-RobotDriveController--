@@ -38,8 +38,8 @@ extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
 
-#define FRAME_BYTE_LENGTH 4  /* 帧长度,包含帧头和帧尾,第2位控制方向，第3位控制步进电机 */
-#define FRAME_START 0xA5    /* 起始帧格式 */
+#define FRAME_BYTE_LENGTH 9  /* 帧长度,包含帧头和帧尾,第2位控制方向，第3位控制步进电机 */
+#define FRAME_START 0x42    /* 起始帧格式 */
 #define FRAME_END 0x5A      /* 结束帧格式 */
 
 /* 速度档位掩码和偏移 (高2位) */
