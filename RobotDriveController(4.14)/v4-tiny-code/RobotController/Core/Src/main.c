@@ -36,6 +36,7 @@
 #include "amt1450_uart.h"
 #include "ArmSolution.h"
 #include "Stepper_Motor.h"
+#include "stm32f4xx_it.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -153,8 +154,13 @@ int main(void)
   FnLED_OFF(FnLED2);
 
   //=================舵机控制测试=============
-  ArmDriver_Init();
-
+    ArmDriver_Init();
+//	  Servo_init(3,90);
+//	  Servo_init(4,90);
+//	  Servo_init(5,90);
+//	  Servo_init(6,90);
+//	  Servo_init(7,90);
+		HAL_Delay(10);
 //  uint16_t servo_pwm = 0;
 //  uint16_t cnt = 0;
     // 使能步进电机
@@ -173,10 +179,18 @@ int main(void)
 //		chassis_move(50, - pi/2, 0.0f);  //右
 //		HAL_Delay(1000);
 //		chassis_move(50, pi, 0.0f);    //后
-//		HAL_Delay(1000);
+//		HAL_Delay(3000);
 //		chassis_move(0, 0, 0.0f);
-//	  Stepper_motor_goto_target_angle(3440);
+//	  Stepper_motor_goto_target_angle(3400);//第一层 200  第二层 1880  第三层 3400
 //	  HAL_Delay(10000);
+//		Stepper_motor_goto_target_angle(0);
+//		SetServoAngle(3,60);//0-180  夹紧  60-110
+//		SetServoAngle(4,85);//0-180 从下往上
+//		SetServoAngle(5,90);//0-180 从下往上
+//		SetServoAngle(6,180);//0-180 从下往上
+//		SetServoAngle(7,90);//0-180  左往右
+//		HAL_Delay(5000);
+//		SetServoAngle(3,120);
 //		Stepper_motor_goto_target_angle(0);
 //	  HAL_Delay(100);
 //		Stepper_motor_goto_target_angle(2000);
@@ -190,6 +204,136 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+			switch(date)
+									{
+										case CMD_MOVE:
+										{
+											if(uart2Data.RxBuffer[2] == 'T')
+											{
+												chassis_move(0, 0, 0.0f);
+											}else
+											{
+												float dir_move = (((uart2Data.RxBuffer[2] - '0')*100 + (uart2Data.RxBuffer[3] - '0')*10 + (uart2Data.RxBuffer[4] - '0')) - 180)/ 180.0f * pi;
+												float speed_move = (uart2Data.RxBuffer[5] - '0')*100 + (uart2Data.RxBuffer[6] - '0')*10 + (uart2Data.RxBuffer[7] - '0');											
+												chassis_move(speed_move, dir_move, 0.0f);
+												date = '4';
+											}
+											break;
+										}
+	
+//										case CMD_HEADER:
+//										{
+//										
+//										}
+//										
+//										case CMD_CORRECT:
+//										{
+//										
+//										}
+//										
+										case CMD_ARM:
+										{
+											float angle_arm = (uart2Data.RxBuffer[2] - '0')*1000 + (uart2Data.RxBuffer[3] - '0')*100 + (uart2Data.RxBuffer[4] - '0')*10 + (uart2Data.RxBuffer[5] - '0');
+													Stepper_motor_goto_target_angle(angle_arm);
+											date = '4';
+//											switch(uart2Data.RxBuffer[2])
+//											{											
+//												case first_floor:
+//												{Stepper_motor_goto_target_angle(200);break;}
+//												case second_floor:
+//												{Stepper_motor_goto_target_angle(1880);break;}
+//												case third_floor:
+//												{Stepper_motor_goto_target_angle(3400);break;}
+											break;
+											
+										}
+										
+//										case CMD_REVOLVE:
+//										{
+//											SetServoAngle(3,90);
+//											SetServoAngle(4,90);
+//											SetServoAngle(5,90);
+//											SetServoAngle(6,90);
+//											SetServoAngle(7,90);
+//											break;
+//										}
+//									
+										case CMD_STOP:
+										{
+											chassis_move(0.0f, 0.0f, 0.0f);
+											break;
+										}
+//										
+										case CMD_GRAB:
+										{
+
+//												SetServoAngle(3,40);//0-180  夹紧
+//												SetServoAngle(4,90);//0-180 从下往上
+//												SetServoAngle(5,90);//0-180 从下往上
+//												SetServoAngle(6,90);//0-180 从下往上
+//												SetServoAngle(7,90);//0-180  右往左
+//												HAL_Delay(5000);
+													SetServoAngle(6,90);
+													SetServoAngle(5,90);
+													SetServoAngle(4,90);
+													chassis_move(30, 0, 0.0f);
+													HAL_Delay(2000);
+													chassis_move(0, 0, 0.0f);
+													while(ServoTunnerOK() == 0){}
+													HAL_Delay(2000);
+													SetServoAngle(3,110);
+													while(ServoTunnerOK() == 0){}
+													HAL_Delay(2000);
+													SetServoAngle(4,90);
+													chassis_move(30, pi, 0.0f);
+													HAL_Delay(2000);
+													chassis_move(0, 0, 0.0f);
+													SetServoAngle(6,180);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(4,30);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(2,0);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(3,60);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(2,90);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(4,80);
+
+														
+//											  if(ServoTunnerOK())
+//												{
+//													SetServoAngle(6,90);
+//												if(ServoTunnerOK())
+//												{
+//													SetServoAngle(3,110);
+//												if(ServoTunnerOK())
+//												{
+//													SetServoAngle(6,160); //抬
+//												}
+//												}
+//												}
+		 										date = '4';
+												break;
+//												HAL_Delay(5000);
+//												SetServoAngle(3,180);
+											
+										}
+//										
+										case CMD_PUT:
+										{
+												
+												SetServoAngle(6,60);
+												date = '5';
+												break;
+										}
+//										
+//										case CMD_TAIL:
+//										{
+//												
+//										}
+//										
+									}
 
 //	chassis_move(50,pi/3,0); //向左前方
 //	HAL_Delay(2000);

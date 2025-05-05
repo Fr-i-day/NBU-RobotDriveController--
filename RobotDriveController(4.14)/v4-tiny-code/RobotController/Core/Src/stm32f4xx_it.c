@@ -59,15 +59,8 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define CMD_HEADER      0x42  // 'B'
-#define CMD_MOVE        0x4D  // 'M'
-#define CMD_CORRECT     0x43  // 'C' 
-#define CMD_ARM         0x41  // 'A'
-#define CMD_REVOLVE     0x52  // 'R'
-#define CMD_STOP        0x53  // 'S'
-#define CMD_GRAB        0x47  // 'G'
-#define CMD_PUT         0x50  // 'P'
-#define CMD_TAIL        0x5A  // 'Z'
+
+
 
 /* USER CODE END 0 */
 
@@ -82,7 +75,7 @@ extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN EV */
-
+ char date;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -404,121 +397,108 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                     while(HAL_UART_GetState(&huart2) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
                     uart2Data.Rx_Cnt = 0;
                     uart2Data.USART_FrameFlag=0;
+									date = uart2Data.RxBuffer[1];
+									
 										
-									switch(uart2Data.RxBuffer[1])
-									{
-										case CMD_MOVE:
-										{
-											if(uart2Data.RxBuffer[2] == 'T')
-											{
-												chassis_move(0, 0, 0.0f);
-											}else
-											{
-												float dir_move = (((uart2Data.RxBuffer[2] - '0')*100 + (uart2Data.RxBuffer[3] - '0')*10 + (uart2Data.RxBuffer[4] - '0')) - 180)/ 180.0f * pi;
-												float speed_move = (uart2Data.RxBuffer[5] - '0')*100 + (uart2Data.RxBuffer[6] - '0')*10 + (uart2Data.RxBuffer[7] - '0');											
-												chassis_move(speed_move, dir_move, 0.0f);
-											}
-											break;
-										}
-	
-//										case CMD_HEADER:
+//									switch(uart2Data.RxBuffer[1])
+//									{
+//										case CMD_MOVE:
 //										{
-//										
+//											if(uart2Data.RxBuffer[2] == 'T')
+//											{
+//												chassis_move(0, 0, 0.0f);
+//											}else
+//											{
+//												float dir_move = (((uart2Data.RxBuffer[2] - '0')*100 + (uart2Data.RxBuffer[3] - '0')*10 + (uart2Data.RxBuffer[4] - '0')) - 180)/ 180.0f * pi;
+//												float speed_move = (uart2Data.RxBuffer[5] - '0')*100 + (uart2Data.RxBuffer[6] - '0')*10 + (uart2Data.RxBuffer[7] - '0');											
+//												chassis_move(speed_move, dir_move, 0.0f);
+//											}
+//											break;
+//										}
+//	
+////										case CMD_HEADER:
+////										{
+////										
+////										}
+////										
+////										case CMD_CORRECT:
+////										{
+////										
+////										}
+////										
+//										case CMD_ARM:
+//										{
+//											float angle_arm = (uart2Data.RxBuffer[2] - '0')*1000 + (uart2Data.RxBuffer[3] - '0')*100 + (uart2Data.RxBuffer[4] - '0')*10 + (uart2Data.RxBuffer[5] - '0');
+//													Stepper_motor_goto_target_angle(angle_arm);
+////											switch(uart2Data.RxBuffer[2])
+////											{											
+////												case first_floor:
+////												{Stepper_motor_goto_target_angle(200);break;}
+////												case second_floor:
+////												{Stepper_motor_goto_target_angle(1880);break;}
+////												case third_floor:
+////												{Stepper_motor_goto_target_angle(3400);break;}
+//											break;
+//											
 //										}
 //										
-//										case CMD_CORRECT:
-//										{
-//										
-//										}
-//										
-										case CMD_ARM:
-										{
-											float angle_arm = (uart2Data.RxBuffer[2] - '0')*200 + (uart2Data.RxBuffer[3] - '0');
-											Stepper_motor_goto_target_angle(angle_arm);
-											break;
-										}
-										
-//										case CMD_REVOLVE:
-//										{
-//										
-//										}
-//									
+////										case CMD_REVOLVE:
+////										{
+////											SetServoAngle(3,90);
+////											SetServoAngle(4,90);
+////											SetServoAngle(5,90);
+////											SetServoAngle(6,90);
+////											SetServoAngle(7,90);
+////											break;
+////										}
+////									
 //										case CMD_STOP:
 //										{
-//										
+//											chassis_move(0.0f, 0.0f, 0.0f);
+//											break;
 //										}
-//										
+////										
 //										case CMD_GRAB:
 //										{
-//											int layer = uart2Data.RxBuffer[2] - '0';
-//											if(layer == 1)
-//											{
-//												SetServoAngle(3,0);
-//												SetServoAngle(4,90);
-//												SetServoAngle(5,90);
-//												SetServoAngle(6,90);
-//												SetServoAngle(7,90);
-//												//Delay();
-//												SetServoAngle(3,180);
-//												//Delay();
-//												SetServoAngle(7,180);
-//												//Delay();
-//												SetServoAngle(3,0);
-//											}
+
+////												SetServoAngle(3,40);//0-180  夹紧
+////												SetServoAngle(4,90);//0-180 从下往上
+////												SetServoAngle(5,90);//0-180 从下往上
+////												SetServoAngle(6,90);//0-180 从下往上
+////												SetServoAngle(7,90);//0-180  右往左
+////												HAL_Delay(5000);
+//												SetServoAngle(3,140); //抓
+//												HAL_Delay(5000);
+//												SetServoAngle(6,150); //抬
+//												
+//												break;
+////												HAL_Delay(5000);
+////												SetServoAngle(3,180);
+//											
 //										}
-//										
+////										
 //										case CMD_PUT:
 //										{
-//										
+//												
+//												SetServoAngle(3,40);
+//												HAL_Delay(10000);
+//												SetServoAngle(6,90);
+//												break;
 //										}
-//										
-//										case CMD_TAIL:
-//										{
-//										
-//										}
-										
-									}
+////										
+////										case CMD_TAIL:
+////										{
+////												
+////										}
+////										
+////									}
 
 
 
 
 
 									
-                 //解析底盘运动指令
-//                 switch(uart2Data.RxBuffer[1]){// 解析电机参数并控制电机
-//                 	case MOTOR_FORWARD:
-//                         chassis_move(70.0f, 0 , 0.0f); // 前进
-//                         break;
-//                     case MOTOR_BACK:
-//                         chassis_move(70.0f, pi , 0.0f); //
-//                         break;
-//                     case MOTOR_LEFT:
-//                         chassis_move(70.0f, pi / 2, 0.0f); // 左转
-//                         break;
-//                     case MOTOR_RIGHT:
-//                         chassis_move(70.0f, -pi / 2, 0.0f); // 右转
-//                         break;
-//                 	case MOTOR_STOP:
-//                         chassis_move(0.0f, 0.0f, 0.0f); // 停止
-//                         break;
-//				}
 
-////--------------------------------------------------------//
-//					                //解析步进电机指令	
-//                switch(uart2Data.RxBuffer[2]){
-//                    case STEPPER_10_DEG:
-//                        Stepper_motor_goto_target_angle(10);
-//                        break;
-//                    case STEPPER_180_DEG:
-//                        Stepper_motor_goto_target_angle(180);
-//                        break;
-//                    case STEPPER_360_DEG:
-//                        Stepper_motor_goto_target_angle(360);
-//                        break;
-//                    case STEPPER_1080_DEG:
-//                        Stepper_motor_goto_target_angle(1080);
-//                        break;
-//				}
 				
 //				through_BT_setAngle();
 
@@ -530,7 +510,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		
 		//}
 }
-
 
 
 /* USER CODE END 1 */
