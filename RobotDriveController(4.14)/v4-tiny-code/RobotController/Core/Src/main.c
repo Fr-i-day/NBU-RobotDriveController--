@@ -276,22 +276,30 @@ int main(void)
 													SetServoAngle(6,90);
 													SetServoAngle(5,90);
 													SetServoAngle(4,90);
+													HAL_Delay(200);
+													while(ServoTunnerOK() == 0){}
 													chassis_move(30, 0, 0.0f);
 													HAL_Delay(2000);
 													chassis_move(0, 0, 0.0f);
 													while(ServoTunnerOK() == 0){}
-													HAL_Delay(2000);
+													HAL_Delay(1500);
 													SetServoAngle(3,110);
 													while(ServoTunnerOK() == 0){}
-													HAL_Delay(2000);
-													SetServoAngle(4,90);
+													//HAL_Delay(1000);
+													SetServoAngle(5,120);
+													SetServoAngle(4,60);
 													chassis_move(30, pi, 0.0f);
-													HAL_Delay(2000);
+													HAL_Delay(3000);
+													
+													SetServoAngle(5,90);	
+													SetServoAngle(4,90);
 													chassis_move(0, 0, 0.0f);
+													SetServoAngle(6,135);
+													while(ServoTunnerOK() == 0){}
+													SetServoAngle(4,0);
+													while(ServoTunnerOK() == 0){}
 													SetServoAngle(6,180);
-													while(ServoTunnerOK() == 0){}
-													SetServoAngle(4,30);
-													while(ServoTunnerOK() == 0){}
+													//while(ServoTunnerOK() == 0){}	
 													SetServoAngle(2,0);
 													while(ServoTunnerOK() == 0){}
 													SetServoAngle(3,60);
@@ -299,6 +307,9 @@ int main(void)
 													SetServoAngle(2,90);
 													while(ServoTunnerOK() == 0){}
 													SetServoAngle(4,80);
+													chassis_move(30, 0, 0.0f);
+													HAL_Delay(1000);
+													chassis_move(0, 0, 0.0f);
 
 														
 //											  if(ServoTunnerOK())
