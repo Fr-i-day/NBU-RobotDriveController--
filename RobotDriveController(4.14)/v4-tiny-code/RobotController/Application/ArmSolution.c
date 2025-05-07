@@ -22,6 +22,13 @@ void ArmDriver_Init(void){
 	HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);
+	
+		  Servo_init(3,60);
+  	  Servo_init(4,80);
+  	  Servo_init(5,85);
+      Servo_init(6,180);
+			Servo_init(2,90);
+      //Servo_init(7,90);
 
 	//直接给pwm赋初值  初始设定为初始机械臂状态  每次上电前应该把机械臂归位
 	//下面为使用举例
@@ -102,18 +109,19 @@ void SetServoAngle(int nServo, float angle)
 */
 uint8_t ServoTunnerOK(void)	
 {
-	if(targetPwm[0] == htim8.Instance->CCR3&& \
-	   targetPwm[1] == htim8.Instance->CCR4&& \
-	   targetPwm[2] == htim12.Instance->CCR1&& \
-	   targetPwm[3] == htim12.Instance->CCR2&& \
-	   targetPwm[4] == htim9.Instance->CCR1&& \
-	   targetPwm[5] == htim9.Instance->CCR2&& \
-	   targetPwm[6] == htim13.Instance->CCR1&& \
-	   targetPwm[7] == htim14.Instance->CCR1) 
-		return 1;
+	if(targetPwm[2] == htim12.Instance->CCR1&&
+		 targetPwm[3] == htim12.Instance->CCR2&& 
+	   targetPwm[4] == htim9.Instance->CCR1&& 
+	   targetPwm[5] == htim9.Instance->CCR2&& 
+	   targetPwm[6] == htim13.Instance->CCR1) 
+		 return 1;		
 	else
 		return 0;
 }
+//	   targetPwm[0] == htim8.Instance->CCR3&& 	   targetPwm[7] == htim14.Instance->CCR1
+//	   targetPwm[1] == htim8.Instance->CCR4&& \
+//	   targetPwm[2] == htim12.Instance->CCR1&& \
+
 
 /*舵机缓慢移动函数，不用看核心要义就是慢慢改变*/
 void slowPwm(uint8_t nServo)
@@ -148,7 +156,7 @@ void slowPwm(uint8_t nServo)
 	default:
 		return;
 	}
-
+	
 	int8_t flag = 2;
 	if (*currentPwm > targetPwm[nServo])
 		flag = -2; // 如果当前pwm值大于目标pwm值，将flag设置为-1

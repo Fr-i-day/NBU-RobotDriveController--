@@ -33,6 +33,18 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+#define CMD_HEADER      0x42  // 'B'
+#define CMD_MOVE        0x4D  // 'M'
+#define CMD_CORRECT     0x43  // 'C' 
+#define CMD_ARM         0x41  // 'A'
+#define CMD_REVOLVE     0x52  // 'R'
+#define CMD_STOP        0x53  // 'S'
+#define CMD_GRAB        0x47  // 'G'
+#define CMD_PUT         0x50  // 'P'
+#define CMD_TAIL        0x5A  // 'Z'
+#define first_floor     0x31  // '1'
+#define second_floor    0x32  // '2'
+#define third_floor     0x33  // '3'
 
 /* USER CODE END ET */
 
@@ -65,6 +77,7 @@ void TIM5_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void TIM7_IRQHandler(void);
 /* USER CODE BEGIN EFP */
+extern char date;
 
 /* USER CODE END EFP */
 
